@@ -117,11 +117,14 @@ library(ggplot2)
 all_cycle_trips_v2 %>% 
   mutate(weekday = wday(started_at, label = TRUE)) %>% 
   group_by(member_casual, weekday) %>% 
-  summarise(number_of_rides = n()
+  summarise(number_of_rides = format(n(), scientific = FALSE) 
             ,average_duration = mean(ride_length)) %>% 
   arrange(member_casual, weekday)  %>% 
   ggplot(aes(x = weekday, y = number_of_rides, fill = member_casual)) +
-  geom_col(position = "dodge")
+  geom_col(position = "dodge") +
+  labs(title = "Number of Rides by Rider Type", x = "Days of the Week", y = "Number of Rides", caption = "Data made available by Motivate International Inc.") 
+ 
+  
 
 ##Visualizing for average duration
 all_cycle_trips_v2 %>% 
@@ -136,6 +139,6 @@ all_cycle_trips_v2 %>%
 
 counts <- aggregate(all_cycle_trips_v2$ride_length ~ all_cycle_trips_v2$member_casual + all_cycle_trips_v2$day_of_week, FUN = mean)
 
-
+write.csv(counts, file = "C:\\Users\\janat\\Downloads\\counts.csv")
 
 
